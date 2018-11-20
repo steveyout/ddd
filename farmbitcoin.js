@@ -856,13 +856,289 @@ bot.action('➕Buy Jewellery',ctx =>{
 
 })
 //buyvip
+//grocery vip
+bot.action('➕Buy Grocery vip',ctx => {
+    var user = ctx.from.id
+    var sql = "SELECT `balance`,`payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
+        if (results[0].balance>=1000&&results[0].payoutpoints>=550){
+            var amount=1000;
+            var chick=1;
+            var points=550;
+            var started=1;
+            var chatid=ctx.from.id
+            var sqli = "update `account` set `balance` =`balance`- '" + amount + "', payoutpoints = `payoutpoints`-" + points + ", groceryvip = `groceryvip`+" + chick + ", grocerystart =" + started + " where `id` = '" + chatid + "'";
+con.query(sqli,function (err,result) {
+    ctx.replyWithHTML('<b>✅Success</b>\n\n<b>grocery vip </b> <i>has been purchased,now all you need is to collect points made by the vip shop</i>\n<b>note:</b><i>grocery vip works only for 95 days</i>')
+
+})
+
+
+        }else if (results[0].balance<1000){
+            ctx.answerCbQuery('Your balance is not enough')
+        } else if (results[0].payoutpoints<550){
+            ctx.answerCbQuery('your points are not enough')
+        } else {
+            ctx.replyWithHTML('<i>your points and balance are not enough</i>')
+        }
+
+    })
+})
+//bookshopvip
+bot.action('➕Buy Bookshop vip',ctx => {
+    var user = ctx.from.id
+    var sql = "SELECT `balance`,`payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
+        if (results[0].balance>=1200&&results[0].payoutpoints>=1200){
+            var amount=1200;
+            var chick=1;
+            var points=1200;
+            var started=1;
+            var chatid=ctx.from.id
+            var sqli = "update `account` set `balance` =`balance`- '" + amount + "', payoutpoints = `payoutpoints`-" + points + ", bookshopvip = `bookshopvip`+" + chick + ", bookshopstart =" + started + " where `id` = '" + chatid + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>✅Success</b>\n\n<b>bookshop vip </b> <i>has been purchased,now all you need is to collect points made by the vip shop</i>\n<b>note:</b><i>bookshop vip works only for 150 days</i>')
+
+            })
+
+
+        }else if (results[0].balance<1200){
+            ctx.answerCbQuery('Your balance is not enough')
+        } else if (results[0].payoutpoints<1200){
+            ctx.answerCbQuery('your points are not enough')
+        } else {
+            ctx.replyWithHTML('<i>your points and balance are not enough</i>')
+        }
+
+    })
+})
+
+//bakeryvip
+bot.action('➕Buy Bakery vip',ctx => {
+    var user = ctx.from.id
+    var sql = "SELECT `balance`,`payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
+        if (results[0].balance>=2800&&results[0].payoutpoints>=2800){
+            var amount=2800;
+            var chick=1;
+            var points=2800;
+            var started=1;
+            var chatid=ctx.from.id
+            var sqli = "update `account` set `balance` =`balance`- '" + amount + "', payoutpoints = `payoutpoints`-" + points + ", bakeryvip = `bakeryvip`+" + chick + ", bakerystart =" + started + " where `id` = '" + chatid + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>✅Success</b>\n\n<b>bakery vip </b> <i>has been purchased,now all you need is to collect points made by the vip shop</i>\n<b>note:</b><i>bakery vip works only for 150 days</i>')
+
+            })
+
+
+        }else if (results[0].balance<2800){
+            ctx.answerCbQuery('Your balance is not enough')
+        } else if (results[0].payoutpoints<2800){
+            ctx.answerCbQuery('your points are not enough')
+        } else {
+            ctx.replyWithHTML('<i>your points and balance are not enough</i>')
+        }
+
+    })
+})
+//supermarketvip
+bot.action('➕Buy supermarket vip',ctx => {
+    var user = ctx.from.id
+    var sql = "SELECT `balance`,`payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
+        if (results[0].balance>=5000&&results[0].payoutpoints>=10000){
+            var amount=5000;
+            var chick=1;
+            var points=10000;
+            var started=1;
+            var chatid=ctx.from.id
+            var sqli = "update `account` set `balance` =`balance`- '" + amount + "', payoutpoints = `payoutpoints`-" + points + ", supermarketvip = `supermarketvip`+" + chick + ", supermarketstart =" + started + " where `id` = '" + chatid + "'";
+            con.query(sqli,function (err,result) {
+                ctx.replyWithHTML('<b>✅Success</b>\n\n<b>supermarket vip </b> <i>has been purchased,now all you need is to collect points made by the vip shop</i>\n<b>note:</b><i>supermarket vip works only for 95 days</i>')
+
+            })
+
+
+        }else if (results[0].balance<5000){
+            ctx.answerCbQuery('Your balance is not enough')
+        } else if (results[0].payoutpoints<10000){
+            ctx.answerCbQuery('your points are not enough')
+        } else {
+            ctx.replyWithHTML('<i>your points and balance are not enough</i>')
+        }
+
+    })
+})
+//collect income
+bot.action('💵Collect income',ctx=>{
+    var ide = ctx.from.id
+    var sql = "SELECT SUM(grocerymine+bookshopmine+bakerymine+butchermine+supermarketmine+jewellarymine)  from `account` where `id` = '" + ide + "'";
+    con.query(sql, function (error, response, fields) {
+
+        var sm = JSON.parse(JSON.stringify(response[0]).replace('SUM(grocerymine+bookshopmine+bakerymine+butchermine+supermarketmine+jewellarymine)', 'suma'))
+        var eggs = sm.suma
+        con.query("update `account` set `income` = `income`+'" + eggs + "' where `id` = '" + ide + "'",
+            function (err, results) {
+                var b=0;
+                var sqli = "update `account` set `grocerymine` = '" + b + "', bookshopmine = " + b + ", bakerymine = " + b + ", butchermine = " + b + ", supermarketmine = " + b + ", jewellarymine = " + b + " where `id` = '" + ide + "'";
+                con.query(sqli,function(err,response) {
+                    ctx.reply('you collected: '+eggs+' 💵')
+                })
+            })
+    })
+})
+//collect points
+bot.action('⚡Collect points',ctx=>{
+    var ide = ctx.from.id
+    var sql = "SELECT SUM(groceryvipmine+bookshopvipmine+bakeryvipmine+supermarketvipmine)  from `account` where `id` = '" + ide + "'";
+    con.query(sql, function (error, response, fields) {
+
+        var sm = JSON.parse(JSON.stringify(response[0]).replace('SUM(groceryvipmine+bookshopvipmine+bakeryvipmine+supermarketvipmine)', 'suma'))
+        var eggs = sm.suma
+        con.query("update `account` set `payoutpoints` = `payoutpoints`+'" + eggs + "' where `id` = '" + ide + "'",
+            function (err, results) {
+                var b=0;
+                var sqli = "update `account` set `groceryvipmine` = '" + b + "', bookshopvipmine = " + b + ", bakeryvipmine = " + b + ", supermarketvipmine = " + b  + " where `id` = '" + ide + "'";
+                con.query(sqli,function(err,response) {
+                    ctx.reply('you collected: '+eggs+' ⚡️')
+                })
+            })
+    })
+})
+///exchange
+bot.hears('⚖️Exchange',ctx => {
+    var id = ctx.from.id
+    var sql = "SELECT income from `account` where `id` = '" + id + "'";
+    con.query(sql, function (error, results, fields) {
+        ctx.replyWithHTML('<b>⚖️Exchange</b>\n\n' + 'Here you can exchange income produced by your shops and for 💰 which you can use to buy new shops or withdraw to your BTC wallet\n\nexchange rate\n<b>100💵=1💰</b> ' + '\n\nincome in storehouse: ' + results[0].income + '💵' + '\n\n<i>After conversion,70% of obtained 💰 will be added to purchase balance and the remaining 30% to withdraw balance.\n The minimum required for conversion is 300💵</i>', Extra
+            .HTML()
+            .markup((m) => m.inlineKeyboard([
+                m.callbackButton('Exchange 💵 and get 💰', 'Exchange 💵 and get 💰')
+            ], {columns: 1}))).then(() => {
+            ctx.reply('click 🏠Menu to go back to main menu', Markup
+                .keyboard([
+                    ['🏠Menu'], // Row1 with 2 buttons
+                ])
+
+                .resize()
+                .extra())
+
+        })
+    })
+})
+//exchange for cash
+bot.action('Exchange 💵 and get 💰',ctx=>{
+    var id = ctx.from.id
+    var sql = "SELECT income from `account` where `id` = '" + id + "'";
+    con.query(sql,function (err,result) {
+        if (result[0].income>=300) {
+            var id = ctx.from.id
+            var balanc =result[0].income  * 0.7
+            var payou = result[0].income - balanc
+            var balancee=balanc/100
+            var payoute=payou/100
+            var payout=Math.round(payoute)
+            var balance=Math.round(balancee)
+
+            var eggs = 0;
+            var sqli = "update `account` set `balance` = `balance`+'" + balance+"', payout = `payout`+" +
+                payout + ", income = " + eggs + " where `id` = '" + id + "'";
+            con.query(sqli, function (err, response) {
+                console.log(err)
+                ctx.replyWithHTML('<b>💫Success</b>\n\nyou have sold: <b>' + result[0].income + '</b>💵\n\nReceived:\n <b>' + balance + '</b>💰 towards purchase balance\n<b>' + payout + '</b>💰 towards payout balance')
+            })
+
+
+        }else {
+            ctx.replyWithHTML('<b>The minimum required for conversion is 300💵 and you have '+result[0].income+'</b>')
+
+        }
+    })
+})
+
+//chat
+bot.hears('💬Chat',ctx => {
+   ctx.replyWithHTML('join our chat group and get a bonus of 100💰 and 10⚡️\n\n<b>if you leave the group you loose your bonus</b>',Extra
+       .HTML()
+       .markup((m) => m.inlineKeyboard([
+           m.urlButton('💭join chat','https://t.me/Bitcoinshopchat')
+       ], {columns: 1})))
 
 
 
 
+})
+//group bonus
+bot.on('new_chat_members',ctx => {
+    var id=ctx.message.new_chat_members[0].id
+    var balance=100;
+    var points=10;
+    var sql = "update `account` set `balance` =`balance`+ '" + balance+ "', payoutpoints =`payoutpoints`+ " + points + " where `id` = '" + id + "'";
+con.query(sql,function (error,results) {
+    var sqli = "SELECT id from `account` where `id` = '" + id + "'";
+    con.query(sqli,function (err,re) {
+        ctx.telegram.sendMessage(re[0].id,'you receive 100💰 and 10⚡ for joining our chat.if you leave the chat you loose your bonus')
+
+    })
+})
 
 
 
+})
+//leave bonus
+bot.on('left_chat_member',ctx => {
+    var id=ctx.message.left_chat_member.id
+    var balance=100;
+    var points=10;
+    var sql = "update `account` set `balance` =`balance`- '" + balance+ "', payoutpoints =`payoutpoints`- " + points + " where `id` = '" + id + "'";
+    con.query(sql,function (error,results) {
+        var sqli = "SELECT id from `account` where `id` = '" + id + "'";
+        con.query(sqli,function (err,re) {
+            ctx.telegram.sendMessage(re[0].id,'you loose 100💰 and 10⚡ for leaving our chat.if you join the chat you gain your bonus')
+
+        })
+    })
+
+
+
+})
+
+
+//statstistics
+bot.hears('📈Stastistics',ctx => {
+    con.query('SELECT `id` FROM `account`', function (error, result) {
+        con.query('SELECT SUM(transactions)FROM account;', function (err, response) {
+            const re = JSON.parse(JSON.stringify(response[0]).replace('SUM(transactions)', 'suma'))
+            con.query('SELECT `started` FROM `account` WHERE `id`=411002680', function (err, respa) {
+                ctx.replyWithHTML('<b>📈Stastistics</b>\n\n📈Days online: ' + respa[0].started + '\n👨🏻‍️Members: ' + result.length + '\n💰Total transacted: ' + re.suma + ' BTC',Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.urlButton('💸payouts','https://t.me/bitcoinshoppays'),
+                        m.urlButton('🗞news','https://t.me/bitcoinshopnews')
+                    ], {columns: 1})))
+            })
+        })
+    })
+})
+//bonus
+bot.hears('🎁Bonus',ctx => {
+    var id=ctx.from.id
+    var bonus= rn(options)
+    var dat=new Date().getDate()
+    var sql = "SELECT bonus from `account` where `id` = '" + id + "'";
+    con.query(sql, function(error, results, fields) {
+        if (results[0].bonus==dat) {
+            ctx.reply('⛔️ You already collected your daily bonus.\nNext bonus will be available in 24hours')
+        }else {
+            var points=1;
+            var sqli = "update `account` set `balance` = `balance`+'" + bonus + "', payoutpoints =`payoutpoints` +" + points + ", bonus = " + dat + " where `id` = '" + id + "'";
+            con.query(sqli)
+            ctx.replyWithHTML('Your account has been credited with:\n\n<b>Daily bonus: +</b>'+bonus+'💰\n<b>points: </b>'+points+' ⚡️\n\n<i>next bonus will be available after 24hrs</i>')
+        }
+    })
+
+
+})
 
 
 
@@ -961,6 +1237,70 @@ cron.schedule('0 0 0 * * *', () => {
     con.query("update `account` set `supermarketvipmine` =`supermarketvipmine`+`supermarketvip`* '" + production + "' where `supermarketvip` >= '" + bal + "'")
 
 })
+//expire
+//grocery vip
+cron.schedule('0 0 0 * * *', () => {
+    var production=0;
+    var bal=95;
+
+    con.query("update `account` set `groceryvip` =" + production + ", `grocerystart` ='" + production + "' where `grocerystart` > '" + bal + "'")
+
+})
+//bookshopvip
+cron.schedule('0 0 0 * * *', () => {
+    var production=0;
+    var bal=150;
+    con.query("update `account` set `bookshopvip` =" + production + ", `bookshopstart` ='" + production + "' where `bookshopstart` > '" + bal + "'")
+
+
+})
+//bakeryvip
+cron.schedule('0 0 0 * * *', () => {
+    var production=0;
+    var bal=150;
+    con.query("update `account` set `bakeryvip` =" + production + ", `bakerystart` ='" + production + "' where `bakerystart` > '" + bal + "'")
+
+
+})
+//supermarketvip
+cron.schedule('0 0 0 * * *', () => {
+    var production=0;
+    var bal=95;
+    con.query("update `account` set `supermarketvip` =" + production + ", `supermarketstart` ='" + production + "' where `supermarketstart` > '" + bal + "'")
+
+
+})
+
+//days working
+//grocery vip
+cron.schedule('0 0 0 * * *', () => {
+    var production=1;
+    var bal=1;
+    con.query("update `account` set `grocerystart` =`grocerystart`+ '" + production + "' where `groceryvip` >= '" + bal + "'")
+
+})
+//bakery
+cron.schedule('0 0 0 * * *', () => {
+    var production=1;
+    var bal=1;
+    con.query("update `account` set `bakerystart` =`bakerystart`+ '" + production + "' where `bakeryvip` >= '" + bal + "'")
+})
+//bookshop
+cron.schedule('0 0 0 * * *', () => {
+    var production=1;
+    var bal=1;
+    con.query("update `account` set `bookshopstart` =`bookshopstart`+ '" + production + "' where `bookshopvip` >= '" + bal + "'")
+})
+//supermarketvip
+cron.schedule('0 0 0 * * *', () => {
+    var production=1;
+    var bal=1;
+    con.query("update `account` set `supermarketstart` =`supermarketstart`+ '" + production + "' where `supermarketvip` >= '" + bal + "'")
+})
+
+
+
+
 
 
 
