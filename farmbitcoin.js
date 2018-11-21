@@ -1,5 +1,6 @@
 const Telegraf = require('telegraf');
 const Extra = require('telegraf/extra');
+var randomItem = require('random-item');
 const Markup = require('telegraf/markup');
 const bot = new Telegraf("717552304:AAF2MIHUlbmnf3TC4i-r-TOPMymf-uEKxdA");
 const Scene = require('telegraf/scenes/base')
@@ -571,7 +572,8 @@ bot.hears('💸Balance',ctx => {
     var id = ctx.from.id
     var sql = "SELECT balance,payout,income,time,firstname,payoutpoints from `account` where `id` = '" + id + "'";
     con.query(sql, function (error, results, fields) {
-        var btc = sb.toBitcoin(results[0].payout);
+        var payout=results[0].payout
+        var btc = payout/1000000
         var btcAmount, currency, rates;
 
         rates = require('bitcoin-exchange-rates');
@@ -1300,7 +1302,669 @@ cron.schedule('0 0 0 * * *', () => {
 
 
 
+//settings
+bot.hears('⚙️Settings',ctx => {
+    var user=ctx.from.id
+    var sql = "SELECT `withdrawadd` from `account` where `id` = '" + user + "'";
+    con.query(sql, function(error, results, fields) {
+        ctx.replyWithHTML('<b>settings</b>\n\nHere you can change your withdraw address\n\ncurren withdraw address: <b>' + results[0].withdrawadd + '</b>\n\n<i>Withdraw address need to be set when requesting payouts</i>', Markup
+            .keyboard([
+                ['🔑set withdraw address'],
+                ['🏠Menu'] // Row1 with 2 buttons
+            ])
 
+            .resize()
+            .extra())
+    })
+
+})
+//casino
+bot.hears('🎴Casino',ctx => {
+    ctx.replyWithHTML('<b>casino games to boost your bonus</b>')
+        .then(() => {
+            ctx.replyWithHTML('<b>🃏️lucky card</b> choose a lucky card and win 💰️\n<b>⚪️lucky number</b> choose a number and win ⚡️ ', Markup
+                .keyboard([
+                    ['🃏️lucky card', '⚪️lucky number'], // Row1 with 2 buttons
+                    ['🏠Menu']
+                ])
+
+
+                .resize()
+                .extra())
+        })
+})
+
+//lucky card
+bot.hears('🃏️lucky card',ctx => {
+    ctx.replyWithHTML('<b>choose a card and win 💰</b>\n\neach bet costs 10💰 and if you win you get 20💰\nif you loose,you loose 10💰')
+        .then(()=>{
+            ctx.replyWithHTML('<b>choose any card</b>',Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2})))
+
+
+
+        })
+
+
+
+
+})
+
+//diamond
+bot.action('♦',ctx=> {
+    var item = randomItem(['♦', '♥', '♠', '♣'])
+    if (item === '♦') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    }
+})
+//hearts
+bot.action('♥',ctx=> {
+    var item = randomItem(['♦', '♥', '♠', '♣'])
+    if (item === '♥') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    }
+})
+
+//flowers
+bot.action('♣',ctx=> {
+    var item = randomItem(['♦', '♥', '♠', '♣'])
+    if (item === '♣') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    }
+})
+//spades
+bot.action('♠',ctx=> {
+    var item = randomItem(['♦', '♥', '♠', '♣'])
+    if (item === '♠') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('♦', '♦'),
+                    m.callbackButton('♥', '♥'),
+                    m.callbackButton('♣', '♣'),
+                    m.callbackButton('♠', '♠')
+
+                ], {columns: 2}))
+            )
+        })
+    }
+})
+
+
+//lucky number
+
+bot.hears('⚪️lucky number',ctx => {
+    ctx.replyWithHTML('<b>choose a number and win ⚡️</b>\n\neach bet costs 10⚡️ and if you win you get 20⚡️\nif you loose,you loose 10⚡️')
+        .then(()=>{
+            ctx.replyWithHTML('<b>choose any number</b>',Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+                ], {columns: 3})))
+
+
+
+        })
+
+
+
+
+})
+
+//numbergame
+bot.action('1',ctx=> {
+    var item = randomItem(['1', '2', '3', '4','5','6'])
+    if (item === '1') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    }
+})
+//two
+bot.action('2',ctx=> {
+    var item = randomItem(['1', '2', '3', '4','5','6'])
+    if (item === '2') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    }
+})
+//three
+bot.action('3',ctx=> {
+    var item = randomItem(['1', '2', '3', '4','5','6'])
+    if (item === '3') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    }
+})
+//four
+bot.action('4',ctx=> {
+    var item = randomItem(['1', '2', '3', '4','5','6'])
+    if (item === '4') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    }
+})
+
+//five
+bot.action('5',ctx=> {
+    var item = randomItem(['1', '2', '3', '4','5','6'])
+    if (item === '5') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    }
+})
+
+//six
+bot.action('6',ctx=> {
+    var item = randomItem(['1', '2', '3', '4','5','6'])
+    if (item === '6') {
+        var production = 20;
+        var id = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    } else {
+        var deduction = 10;
+        var ide = ctx.from.id;
+        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                .HTML()
+                .markup((m) => m.inlineKeyboard([
+                    m.callbackButton('1', '1'),
+                    m.callbackButton('2', '2'),
+                    m.callbackButton('3', '3'),
+                    m.callbackButton('4', '4'),
+                    m.callbackButton('5', '5'),
+                    m.callbackButton('6', '6')
+
+                ], {columns: 3}))
+            )
+        })
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//withdraw
+const withdrawscene = new Scene('withdraw')
+withdrawscene.enter((ctx) => {
+    var id = ctx.from.id
+    var sql = "SELECT payout,withdrawadd,payoutpoints from `account` where `id` = '" + id + "'";
+    con.query(sql, function (error, results, fields) {
+        if (results[0].withdrawadd == "none") {
+            ctx.replyWithHTML('<b>withdraw address not set</b>\n\n<i>you can set your withdraw address in ⚙️Settings</i>')
+        } else {
+            var points=results[0].payoutpoints
+            var btc =points/1000000
+            var btcAmount, currency, rates;
+
+            rates = require('bitcoin-exchange-rates');
+
+            btcAmount = btc.toFixed(8);
+
+            currency = 'USD';
+            rates.fromBTC(btcAmount, currency, function (err, rate) {
+                ctx.replyWithHTML('<b>🏵Withdraw funds</b>\n\nyour withdraw wallet: <b>' + results[0].withdrawadd + '</b>\n\nThe withdrawal of funds is made from the balance designated for payments at the rate of 0.001 BTC = 1,000 💰\n<b>Your balance ' + results[0].payout + '💰</b>\n\nTo convert your balance in order to receive payments to the BTC, you also need points ⚡️same as your withdraw balance.eg:to withdraw 1000💰 you need to have 1000 ⚡️\n\nYour point balance allows you to withdraw as follows:\n <b>' +results[0].payoutpoints+' ⚡️=' +btcAmount+' BTC</b> <i>( $'+ rate+' )</i>\n<a href="https://t.me/bitcoinshopnews/5">How to earn points</a> ')
+                    .then(() => {
+                        ctx.replyWithHTML('<i>Enter the number of 💰 you would like to withdraw to your BitCoin Wallet (a minimum of 2000)</i>', Markup
+                            .keyboard([
+                                ['🛑cancel'], // Row1 with 2 buttons
+                            ])
+
+                            .resize()
+                            .extra())
+
+                    })
+            })
+        }
+    })
+})
+withdrawscene.leave((ctx) =>  ctx.reply('Main menu', Markup
+    .keyboard([
+        ['🏦Shops', '💵Income'], // Row1 with 2 buttons
+        ['💸Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+        ['⚖️Exchange', '📈Stastistics'],
+        ['⚙️Settings', '🎁Bonus'],
+        ['💬Chat', '🎴Casino']// Row3 with 3 buttons Row3 with 3 buttons
+    ])
+
+    .resize()
+    .extra())
+)
+withdrawscene.hears('🛑cancel',(ctx => ctx.scene.leave()))
+withdrawscene.on('message',ctx => {
+    var id = ctx.from.id
+    var sql = "SELECT payout,payoutpoints from `account` where `id` = '" + id + "'";
+    con.query(sql, function (error, results, fields) {
+        if (isNaN(ctx.message.text)) {
+            ctx.reply('please enter a valid amount')
+
+        } else if (ctx.message.text < 2000) {
+            ctx.replyWithHTML('The minimum required for withdraw is <b>2000💰</b>')
+            ctx.scene.leave()
+        } else if (ctx.message.text > results[0].payout) {
+            ctx.reply('your balance is not enough for the requsted withdrawal')
+            ctx.scene.leave()
+        } else if (ctx.message.text > results[0].payoutpoints) {
+            ctx.reply('your points are not enough for a withdraw')
+            ctx.scene.leave()
+        } else {
+            var id = ctx.from.id
+            var sql = "SELECT payout,withdrawadd from `account` where `id` = '" + id + "'";
+            con.query(sql, function (error, results, fields) {
+                var pay=ctx.message.text / 1000000
+                var payout =pay.toFixed(8)
+                var addre = results[0].withdrawadd
+                client.getAccount(btc, function (err, account) {
+                    account.sendMoney({
+                        'to': addre,
+                        'amount': payout,
+                        'currency': 'BTC'
+                    }, function (err, tx) {
+                        ctx.telegram.sendMessage('@bitcoinshoppays', 'New withdrawal of ' + payout + ' BTC by ' + ctx.from.first_name + '\n\nhttps://live.blockcypher.com/btc/address/' + results[0].withdrawadd)
+                        var user = ctx.from.id
+                        var amount = ctx.message.text
+                        var sqla = "update `account` set `payout` =`payout`- '" + amount + "', `payoutpoints` =`payoutpoints`- " + amount + ", transactions =`transactions`+ " + payout + " where `id` = '" + user + "'";
+                        var sqli = "update `account` set `payout` = `payout`-" + amount + " where `id` = '" + user + "'";
+                        con.query(sqla)
+                        ctx.replyWithHTML('Your withdrawal of ' + payout + ' BTC is being processed', Markup
+                            .keyboard([
+                                ['🏦Shops', '💵Income'], // Row1 with 2 buttons
+                                ['💸Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                                ['⚖️Exchange', '📈Stastistics'],
+                                ['⚙️Settings', '🎁Bonus'],
+                                ['💬Chat','🎴Casino']// Row3 with 3 buttons Row3 with 3 buttons
+                            ])
+
+                            .resize()
+                            .extra())
+                        ctx.scene.leave()
+                    });
+                });
+
+
+            })
+        }
+    })
+})
+//withdrawaddress
+const greeterScene = new Scene('greeter')
+greeterScene.enter((ctx) => ctx.reply('send your BTC wallet address to be used for withdrwals below to update it',Markup
+    .keyboard([
+        ['🛑cancel'], // Row1 with 2 buttons
+    ])
+
+    .resize()
+    .extra())
+
+
+
+)
+greeterScene.leave((ctx) =>  ctx.reply('Main menu', Markup
+    .keyboard([
+        ['🏦Shops', '💵Income'], // Row1 with 2 buttons
+        ['💸Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+        ['⚖️Exchange', '📈Stastistics'],
+        ['⚙️Settings', '🎁Bonus'],
+        ['💬Chat', '🎴Casino']// Row3 with 3 buttons Row3 with 3 buttons
+    ])
+
+    .resize()
+    .extra())
+)
+greeterScene.on('message', (ctx) => {
+    var valid = WAValidator.validate(ctx.message.text, 'BTC');
+    if (valid) {
+        var ide = ctx.from.id
+        var sqli = "update `account` set `withdrawadd` = '" + ctx.message.text + "' where `id` = '" + ide + "'";
+        con.query(sqli)
+        ctx.replyWithHTML('<b>withdraw address updated</b>', Markup
+            .keyboard([
+                ['🏦Shops', '💵Income'], // Row1 with 2 buttons
+                ['💸Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                ['⚖️Exchange', '📈Stastistics'],
+                ['⚙️Settings', '🎁Bonus'],
+                ['💬Chat','🎴Casino']// Row3 with 3 buttons Row3 with 3 buttons
+            ])
+
+            .resize()
+            .extra())
+ctx.scene.leave()
+
+    } else {
+        ctx.reply('invalid BTC address', Markup
+            .keyboard([
+                ['🏦Shops', '💵Income'], // Row1 with 2 buttons
+                ['💸Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+                ['⚖️Exchange', '📈Stastistics'],
+                ['⚙️Settings', '🎁Bonus'],
+                ['💬Chat','🎴Casino']// Row3 with 3 buttons Row3 with 3 buttons
+            ])
+
+            .resize()
+            .extra())
+
+ctx.scene.leave()
+    }
+})
+
+
+
+
+
+
+//scenes
+const stage = new Stage([withdrawscene,greeterScene], { ttl: 1800 })
+bot.use(session())
+bot.use(stage.middleware())
+bot.action('🔰Withdraw',enter('withdraw'))
+bot.hears('🔑set withdraw address', enter('greeter'))
 
 
 
