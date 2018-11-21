@@ -1799,6 +1799,7 @@ withdrawscene.enter((ctx) => {
     con.query(sql, function (error, results, fields) {
         if (results[0].withdrawadd == "none") {
             ctx.replyWithHTML('<b>withdraw address not set</b>\n\n<i>you can set your withdraw address in ⚙️Settings</i>')
+            ctx.scene.leave()
         } else {
             var points=results[0].payoutpoints
             var btc =points/1000000
