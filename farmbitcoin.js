@@ -128,7 +128,7 @@ bot.command('start',ctx => {
                     con.query("SELECT ref FROM account WHERE id=" + chatd, function (err, result, fields) {
 
                         if (result[0].ref !== refidi) {
-                            var refbonus = 100;
+                            var refbonus =100;
                             var ref = 1;
                             var energy=1;
                             var refid = message.text.split(start)[1];
@@ -1897,6 +1897,7 @@ withdrawscene.enter((ctx) => {
     con.query(sql, function (error, results, fields) {
         if (results[0].withdrawadd == "none") {
             ctx.replyWithHTML('<b>withdraw address not set</b>\n\n<i>you can set your withdraw address in ⚙️Settings</i>')
+            ctx.scene.leave()
         } else {
             var points=results[0].payoutpoints
             var btc =points/1000000
