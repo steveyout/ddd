@@ -1359,146 +1359,176 @@ bot.hears('🃏️lucky card',ctx => {
 
 //diamond
 bot.action('♦',ctx=> {
+    var user = ctx.from.id
     var item = randomItem(['♦', '♥', '♠', '♣'])
-    if (item === '♦') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 2}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+        if (results[0].balance < 10) {
+            ctx.reply('your balance is not enough')
 
-                ], {columns: 2}))
-            )
-        })
-    }
+        } else if (item === '♦') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        }
+    })
 })
 //hearts
 bot.action('♥',ctx=> {
+    var user = ctx.from.id
     var item = randomItem(['♦', '♥', '♠', '♣'])
-    if (item === '♥') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 2}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+        if (results[0].balance < 10) {
+            ctx.reply('your balance is not enough')
 
-                ], {columns: 2}))
-            )
-        })
-    }
+        } else if (item === '♥') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        }
+    })
 })
-
 //flowers
 bot.action('♣',ctx=> {
+    var user = ctx.from.id
     var item = randomItem(['♦', '♥', '♠', '♣'])
-    if (item === '♣') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 2}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+        if (results[0].balance < 10) {
+            ctx.reply('your balance is not enough')
 
-                ], {columns: 2}))
-            )
-        })
-    }
+        } else if (item === '♣') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        }
+    })
 })
 //spades
 bot.action('♠',ctx=> {
+    var user = ctx.from.id
     var item = randomItem(['♦', '♥', '♠', '♣'])
-    if (item === '♠') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+    var sql = "SELECT `balance` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 2}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('♦', '♦'),
-                    m.callbackButton('♥', '♥'),
-                    m.callbackButton('♣', '♣'),
-                    m.callbackButton('♠', '♠')
+        if (results[0].balance < 10) {
+            ctx.reply('your balance is not enough')
 
-                ], {columns: 2}))
-            )
-        })
-    }
+        } else if (item === '♠') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `balance` =`balance`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10💰</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('♦', '♦'),
+                        m.callbackButton('♥', '♥'),
+                        m.callbackButton('♣', '♣'),
+                        m.callbackButton('♠', '♠')
+
+                    ], {columns: 2}))
+                )
+            })
+        }
+    })
 })
-
 
 //lucky number
 
@@ -1527,239 +1557,286 @@ bot.hears('⚪️lucky number',ctx => {
 
 //numbergame
 bot.action('1',ctx=> {
-    var item = randomItem(['1', '2', '3', '4','5','6'])
-    if (item === '1') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+    var user = ctx.from.id
+    var item = randomItem(['1', '2', '3', '4', '5', '6'])
+    var sql = "SELECT `payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 3}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+        if (results[0].payoutpoints < 10) {
+            ctx.reply('your points are not enough')
 
-                ], {columns: 3}))
-            )
-        })
-    }
+        } else if (item === '1') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        }
+    })
 })
 //two
 bot.action('2',ctx=> {
-    var item = randomItem(['1', '2', '3', '4','5','6'])
-    if (item === '2') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+    var user = ctx.from.id
+    var item = randomItem(['1', '2', '3', '4', '5', '6'])
+    var sql = "SELECT `payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 3}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+        if (results[0].payoutpoints < 10) {
+            ctx.reply('your points are not enough')
 
-                ], {columns: 3}))
-            )
-        })
-    }
+        } else if (item === '2') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        }
+    })
 })
 //three
 bot.action('3',ctx=> {
-    var item = randomItem(['1', '2', '3', '4','5','6'])
-    if (item === '3') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+    var user = ctx.from.id
+    var item = randomItem(['1', '2', '3', '4', '5', '6'])
+    var sql = "SELECT `payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 3}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+        if (results[0].payoutpoints < 10) {
+            ctx.reply('your points are not enough')
 
-                ], {columns: 3}))
-            )
-        })
-    }
+        } else if (item === '3') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        }
+    })
 })
 //four
 bot.action('4',ctx=> {
-    var item = randomItem(['1', '2', '3', '4','5','6'])
-    if (item === '4') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+    var user = ctx.from.id
+    var item = randomItem(['1', '2', '3', '4', '5', '6'])
+    var sql = "SELECT `payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 3}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+        if (results[0].payoutpoints < 10) {
+            ctx.reply('your points are not enough')
 
-                ], {columns: 3}))
-            )
-        })
-    }
+        } else if (item === '4') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        }
+    })
 })
 
 //five
 bot.action('5',ctx=> {
-    var item = randomItem(['1', '2', '3', '4','5','6'])
-    if (item === '5') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+    var user = ctx.from.id
+    var item = randomItem(['1', '2', '3', '4', '5', '6'])
+    var sql = "SELECT `payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 3}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+        if (results[0].payoutpoints < 10) {
+            ctx.reply('your points are not enough')
 
-                ], {columns: 3}))
-            )
-        })
-    }
+        } else if (item === '5') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        }
+    })
 })
-
 //six
 bot.action('6',ctx=> {
-    var item = randomItem(['1', '2', '3', '4','5','6'])
-    if (item === '6') {
-        var production = 20;
-        var id = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+    var user = ctx.from.id
+    var item = randomItem(['1', '2', '3', '4', '5', '6'])
+    var sql = "SELECT `payoutpoints` from `account` where `id` = '" + user + "'";
+    con.query(sql, function (error, results, fields) {
 
-                ], {columns: 3}))
-            )
-        })
-    } else {
-        var deduction = 10;
-        var ide = ctx.from.id;
-        con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
-            ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
-                .HTML()
-                .markup((m) => m.inlineKeyboard([
-                    m.callbackButton('1', '1'),
-                    m.callbackButton('2', '2'),
-                    m.callbackButton('3', '3'),
-                    m.callbackButton('4', '4'),
-                    m.callbackButton('5', '5'),
-                    m.callbackButton('6', '6')
+        if (results[0].payoutpoints < 10) {
+            ctx.reply('your points are not enough')
 
-                ], {columns: 3}))
-            )
-        })
-    }
+        } else if (item === '6') {
+            var production = 20;
+            var id = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`+'" + production + "' where `id` >= '" + id + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you win:20⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        } else {
+            var deduction = 10;
+            var ide = ctx.from.id;
+            con.query("update `account` set `payoutpoints` =`payoutpoints`-'" + deduction + "' where `id` >= '" + ide + "'", function (err, results) {
+                ctx.editMessageText('<b>you chose: </b>' + ctx.match + '\n<b>Results: </b>' + item + '\n\n<b>you lose:10⚡️</b>', Extra
+                    .HTML()
+                    .markup((m) => m.inlineKeyboard([
+                        m.callbackButton('1', '1'),
+                        m.callbackButton('2', '2'),
+                        m.callbackButton('3', '3'),
+                        m.callbackButton('4', '4'),
+                        m.callbackButton('5', '5'),
+                        m.callbackButton('6', '6')
+
+                    ], {columns: 3}))
+                )
+            })
+        }
+    })
 })
 
 
@@ -1799,7 +1876,6 @@ withdrawscene.enter((ctx) => {
     con.query(sql, function (error, results, fields) {
         if (results[0].withdrawadd == "none") {
             ctx.replyWithHTML('<b>withdraw address not set</b>\n\n<i>you can set your withdraw address in ⚙️Settings</i>')
-            ctx.scene.leave()
         } else {
             var points=results[0].payoutpoints
             var btc =points/1000000
