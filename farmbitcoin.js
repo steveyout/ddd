@@ -1844,18 +1844,39 @@ bot.action('6',ctx=> {
 
 
 
+const adminscene = new Scene('admin')
+adminscene.enter((ctx) =>{ctx.reply('sms all users', Extra.markup(Markup.forceReply()))
+})
+adminscene.on('message',ctx => {
+    con.query('SELECT `id` from `account`', function (err, results) {
+        results.forEach(function (res) {
+            if (ctx.from.id == 411002680) {
+                var id = res.id
+                ctx.telegram.sendMessage(id, ctx.message.text)
+                    .then(() => {
+                        ctx.scene.leave()
+                    })
+            } else {
+                ctx.reply('you are not an admin')
+                then(() => {
+                    ctx.scene.leave()
+                })
+            }
+        })
+    })
+})
+adminscene.leave((ctx) =>  ctx.reply('Main menu', Markup
+    .keyboard([
+        ['🏦Shops', '💵Income'], // Row1 with 2 buttons
+        ['💸Balance', '👨‍👧‍👦Refferals'], // Row2 with 2 buttons
+        ['⚖️Exchange', '📈Stastistics'],
+        ['⚙️Settings', '🎁Bonus'],
+        ['💬Chat', '🎴Casino']// Row3 with 3 buttons Row3 with 3 buttons
+    ])
 
-
-
-
-
-
-
-
-
-
-
-
+    .resize()
+    .extra())
+)
 
 
 
@@ -2037,12 +2058,12 @@ ctx.scene.leave()
 
 
 //scenes
-const stage = new Stage([withdrawscene,greeterScene], { ttl: 1800 })
+const stage = new Stage([withdrawscene,greeterScene,adminscene], { ttl: 1800 })
 bot.use(session())
 bot.use(stage.middleware())
 bot.action('🔰Withdraw',enter('withdraw'))
 bot.hears('🔑set withdraw address', enter('greeter'))
-
+bot.hears('Admin',enter('admin'))
 
 
 
