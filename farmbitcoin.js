@@ -1077,9 +1077,9 @@ bot.on('new_chat_members',ctx => {
     var sql = "SELECT tele,id from `account` where `id` = '" + id + "'";
     con.query(sql,function (err,result) {
 
-        if (result[0].tele === 'true') {
-
-            ctx.telegram.sendMessage(result[0].id, 'you already received your award')
+        if (result[0].tele == "none") {
+            var id=ctx.message.new_chat_members[0].id
+            ctx.telegram.sendMessage(id, 'you already received your award')
 
         } else {
 
@@ -1087,8 +1087,8 @@ bot.on('new_chat_members',ctx => {
             var id = ctx.message.new_chat_members[0].id
             var balance = 100;
             var points = 10;
-            var tele = 'true'
-            var sql = "update `account` set `balance` = `balance`+'" + balance + "', payoutpoints = `payoutpoints`+" + points + ", `tele` = " + tele + " where `id` = '" + id + "'";
+            var tele = 'none'
+            var sql = "update `account` set `balance` = `balance`+'" + balance + "', payoutpoints = `payoutpoints`+" + points + ", `tele` = '" + tele + "' where `id` = '" + id + "'";
             con.query(sql, function (error, results) {
                 console.log(error)
                 var sqli = "SELECT id from `account` where `id` = '" + id + "'";
