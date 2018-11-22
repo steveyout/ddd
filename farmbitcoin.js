@@ -1060,7 +1060,7 @@ bot.action('Exchange 💵 and get 💰',ctx=>{
 
 //chat
 bot.hears('💬Chat',ctx => {
-   ctx.replyWithHTML('join our chat group and get a bonus of 100💰 and 10⚡️\n\n<b>if you leave the group you loose your bonus</b>',Extra
+   ctx.replyWithHTML('join our chat group and get a bonus of 100💰 and 10⚡',Extra
        .HTML()
        .markup((m) => m.inlineKeyboard([
            m.urlButton('💭join chat','https://t.me/Bitcoinshopchat')
@@ -1072,38 +1072,39 @@ bot.hears('💬Chat',ctx => {
 })
 //group bonus
 bot.on('new_chat_members',ctx => {
+
     var id=ctx.message.new_chat_members[0].id
-    var balance=100;
-    var points=10;
-    var sql = "update `account` set `balance` =`balance`+ '" + balance+ "', payoutpoints =`payoutpoints`+ " + points + " where `id` = '" + id + "'";
-con.query(sql,function (error,results) {
-    var sqli = "SELECT id from `account` where `id` = '" + id + "'";
-    con.query(sqli,function (err,re) {
-        ctx.telegram.sendMessage(re[0].id,'you receive 100💰 and 10⚡ for joining our chat.if you leave the chat you loose your bonus')
+    var sql = "SELECT tele,id from `account` where `id` = '" + id + "'";
+    con.query(sql,function (err,result) {
 
-    })
-})
+        if (result[0].tele === 'joined') {
+
+            ctx.telegram.sendMessage(result[0].id, 'you already received your award')
+
+        } else {
 
 
+            var id = ctx.message.new_chat_members[0].id
+            var balance = 100;
+            var points = 10;
+            var tele = 'joined'
+            var sql = "update `account` set `balance` = `balance`+'" + balance + "', payoutpoints = `payoutpoints`+" + points + ", tele = " + tele + " where `id` = '" + id + "'";
+            con.query(sql, function (error, results) {
+                var sqli = "SELECT id from `account` where `id` = '" + id + "'";
+                con.query(sqli, function (err, re) {
+                    ctx.telegram.sendMessage(re[0].id, 'you receive 100💰 and 10⚡ for joining our chat.')
 
-})
-//leave bonus
-bot.on('left_chat_member',ctx => {
-    var id=ctx.message.left_chat_member.id
-    var balance=100;
-    var points=10;
-    var sql = "update `account` set `balance` =`balance`- '" + balance+ "', payoutpoints =`payoutpoints`- " + points + " where `id` = '" + id + "'";
-    con.query(sql,function (error,results) {
-        var sqli = "SELECT id from `account` where `id` = '" + id + "'";
-        con.query(sqli,function (err,re) {
-            ctx.telegram.sendMessage(re[0].id,'you loose 100💰 and 10⚡ for leaving our chat.if you join the chat you gain your bonus')
-
-        })
+                })
+            })
+        }
     })
 
-
-
 })
+//
+
+
+
+
 
 
 //statstistics
