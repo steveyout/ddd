@@ -21,10 +21,10 @@ var mykey = 'JaH2VY37PArRPeod'
 var sb = require('satoshi-bitcoin');
 var client = new Client({'apiKey': mykey, 'apiSecret': mysecret});
 var con = mysql.createConnection({
-    host: "bb2vteits-mysql.services.clever-cloud.com",
-    user: "uhts4gzltux4k8lo",
-    password: "Kf2ab94laOF5TxrvIjy",
-    database:"bb2vteits"
+    host: "localhost",
+    user: "bitcoinshop",
+    password: "peninah123",
+    database:"bitcoinshop"
 });
 var rn = require('random-number');
 var options = {
